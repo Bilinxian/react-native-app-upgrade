@@ -1,6 +1,6 @@
 {
   "name": "rn-app-upgrade",
-  "version": "1.2.0",
+  "version": "2.1.8",
   "description": "react native app upgrade",
   "main": "index.js",
   "scripts": {
@@ -22,5 +22,6 @@
   "bugs": {
     "url": "https://github.com/songxiaoliang/react-native-app-upgrade/issues"
   },
-  "homepage": "https://github.com/songxiaoliang/react-native-app-upgrade#readme"
+  "homepage": "https://github.com/songxiaoliang/react-native-app-upgrade#readme",
+
 }

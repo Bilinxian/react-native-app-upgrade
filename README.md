@@ -1,5 +1,5 @@
 
-React Native App 版本升级封装库，兼容Android 4 - 10 版本、iOS所有版本
+React Native App 版本升级封装库，兼容Android4以上所有版本
 
 ### 一、功能
 #### Android
@@ -21,36 +21,13 @@ React Native App 版本升级封装库，兼容Android 4 - 10 版本、iOS所有
 ```xml
   yarn add rn-app-upgrade
 
-  // 低于0.6+版本
+  // or 
+  npm install rn-app-upgrade
+ 
+  // less than 0.6
   react-native link rn-app-upgrade
 ```
-#### 注意
-如果使用的RN版本低于0.6，则默认不支持androidx，则需要单独修改几个如下几个文件，使用import android support库中对应的文件
-```java
-  1. ApkDonLoadSuccessReceiver.java
 
-  import androidx.core.content.FileProvider
-  更改为:
-  import android.support.v4.content.FileProvider
-
-
-  2. DownloadService.java
-
-  import androidx.core.app.NotificationCompat.Builder
-  更改为:
-  import android.support.v4.NotificationCompat.Builder
-  
-  import androidx.core.content.FileProvider
-  更改为:
-  import android.support.v4.content.FileProvider
-
-
-  3. FileProviderAdapter.java
-
-  import androidx.core.content.FileProvider
-  更改为:
-  import android.support.v4.content.FileProvider
-```
 iOS
 打开Xcode, 将 ios_upgrade 导入到项目目录。
 
@@ -58,7 +35,7 @@ iOS
 ```javascript
 
   import { 
-    upgrade,
+    downloadApk,
     versionName,
     versionCode,
     openAPPStore,
@@ -69,17 +46,21 @@ iOS
   //可通过RN.versionName获取apk版本号和远程版本号进行比较
   if(Android) {
     if(res.versionCode > versionCode) {
-      upgrade(res.apkUrl);
+        downloadApk({
+            interval: 666, // listen to upload progress event, emit every 666ms
+            apkUrl: "https://xxxx.apk",
+            downloadInstall: true,
+            callback: {
+                onProgress: (received, total， percent) => {},
+                onFailure: (errorMessage, statusCode) => {},
+                onComplete: () => {},
+            },
+        });
     }
   } else {
-    const IOSUpdateInfo = await checkUpdate(appid, 当前版本号);
+    const IOSUpdateInfo = await checkIOSUpdate(appid, 当前版本号);
     IOSUpdateInfo.code // -1: 未查询到该App 或 网络错误 1: 有最新版本 0: 没有新版本
     IOSUpdateInfo.msg
     IOSUpdateInfo.version
   }
-```
-
-如果需要接收下载进度，可通过如下方式：
-```javascript
-   addDownLoadListener((progress) => {});
 ```

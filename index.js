@@ -1,9 +1,8 @@
 import {
-    Linking,
     Platform,
     NativeModules,
-    DeviceEventEmitter,
 } from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const RNUpgrade = NativeModules.upgrade;
 const ANDROID_PLATFORM = Platform.OS === 'android';
@@ -18,6 +17,22 @@ function handlerVersionString(version) {
     }
     return number;
 }
+
+//把字节转换成正常文件大小
+function getFilesize(size) {
+    if (!size)  return "";
+    var num = 1024.00; //byte
+    if (size < num)
+        return size + "B";
+    if (size < (num ** 2))
+        return (size / num).toFixed(1) + "KB"; //kb
+    if (size < Math.pow(num, 3))
+        return (size / (num ** 2)).toFixed(1) + "MB"; //M
+    if (size < (num ** 4))
+        return (size / (num ** 3)).toFixed(1) + "G"; //G
+    return (size / (num ** 4)).toFixed(1) + "T"; //T
+}
+
 
 /**
  * IOS检测更新
@@ -60,15 +75,6 @@ export async function checkUpdate(appId, version) {
 }
 
 /**
- * 升级 android平台
- * @param apkUrl   android传入apk地址
- */
-export const upgrade = (apkUrl) => {
-    if (ANDROID_PLATFORM) {
-        RNUpgrade.upgrade(apkUrl);
-    }
-};
-/**
  * 根据appid打开苹果商店
  * @param appid
  */
@@ -79,14 +85,44 @@ export const openAPPStore = (appid) => {
 };
 
 /**
- * android apk下载回调
- * @param callBack
+ * Android apk下载
+ * @param downloadInstall 是否下载后立刻安装
+ * @param apkUrl Apk Url
+ * @param callback 下载结果回调
  */
-export const addDownLoadListener = (callBack) => {
-    if (ANDROID_PLATFORM) {
-        return DeviceEventEmitter.addListener('LOAD_PROGRESS', callBack);
+export const downloadApk = async ({
+    apkUrl,
+    callback,
+    interval = 250,
+    downloadInstall = true
+}) => {
+	const apkFilePath = RNUpgrade.downloadApkFilePath;
+	// const apkHasDownload = await checkApkFileExist(apkFilePath);
+    // if (apkHasDownload) {
+    //     RNUpgrade.installApk(downloadApkFilePath);
+    //     return;
+    // }
+    const downloadTask = await RNFetchBlob
+        .config({ path: apkFilePath })
+        .fetch('GET', apkUrl)
+        .progress({ interval }, (received, total) => {
+            callback?.onProgress(getFilesize(received), getFilesize(total), parseInt((received / total * 100)));
+        })
+        .catch((errorMessage, statusCode) => {
+          callback?.onFailure(errorMessage, statusCode);
+        });
+    callback?.onComplete();
+    if (downloadInstall) {
+        const apkFileExist = await checkApkFileExist(apkFilePath);
+        apkFileExist && RNUpgrade.installApk(apkFilePath);
     }
-};
+}
 
-/** app版本号，如1.0.1 */
-export const versionName = RNUpgrade.versionName;
+/**
+ * 检查本地是否有apk文件
+ * @param apkFilePath 下载的apk文件路径
+ */
+const checkApkFileExist = async (apkFilePath) => {
+    return await RNFetchBlob.fs.exists(apkFilePath);
+}
+
