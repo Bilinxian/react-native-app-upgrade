@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/songxiaoliang/react-native-app-upgrade.git"
+    "url": "git+https://github.com/Bilinxian/react-native-app-upgrade.git"
   },
   "keywords": [
     "react-native",
@@ -20,8 +20,7 @@
   "author": "songlcy",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/songxiaoliang/react-native-app-upgrade/issues"
+    "url": "https://github.com/Bilinxian/react-native-app-upgrade/issues"
   },
-  "homepage": "https://github.com/songxiaoliang/react-native-app-upgrade#readme",
-
+  "homepage": "https://github.com/Bilinxian/react-native-app-upgrade#readme"
 }
