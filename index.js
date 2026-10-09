@@ -2,7 +2,7 @@ import {
   Platform,
   NativeModules,
 } from 'react-native';
-import RNFetchBlob from 'rn-fetch-blob';
+import ReactNativeBlobUtil from 'react-native-blob-util'
 
 const RNUpgrade = NativeModules.upgrade;
 const ANDROID_PLATFORM = Platform.OS === 'android';
@@ -19,7 +19,7 @@ function handlerVersionString(version) {
 //把字节转换成正常文件大小
 function getFilesize(size) {
   if (!size) return "";
-    const num = 1024.00; //byte
+  const num = 1024.00; //byte
   if (size < num)
     return size + "B";
   if (size < (num ** 2))
@@ -100,7 +100,7 @@ export const downloadApk = async ({
   //     RNUpgrade.installApk(downloadApkFilePath);
   //     return;
   // }
-  const downloadTask = await RNFetchBlob
+  const downloadTask = await ReactNativeBlobUtil
     .config({path: apkFilePath})
     .fetch('GET', apkUrl)
     .progress({interval}, (received, total) => {
