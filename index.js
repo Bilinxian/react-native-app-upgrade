@@ -121,6 +121,6 @@ export const downloadApk = async ({
  * @param apkFilePath 下载的apk文件路径
  */
 const checkApkFileExist = async (apkFilePath) => {
-  return await RNFetchBlob.fs.exists(apkFilePath);
+  return await ReactNativeBlobUtil.fs.exists(apkFilePath);
 }
 
