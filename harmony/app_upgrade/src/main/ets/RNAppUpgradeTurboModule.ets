@@ -10,23 +10,23 @@ export class RNAppUpgradeTurboModule extends TurboModule {
     this.ctx = ctx;
   }
 
-  async checkUpgrade(): Promise<boolean> {
+  async checkUpgrade(): Promise<updateManager.CheckUpdateResult> {
     try {
       const checkResult: updateManager.CheckUpdateResult =
         await updateManager.checkAppUpdate(this.ctx.getUIContext()?.getHostContext() as common.UIAbilityContext)
-      return checkResult.updateAvailable === updateManager.UpdateAvailableCode.LATER_VERSION_EXIST
+      return checkResult
     } catch (e) {
-      return false
+      return {updateAvailable: updateManager.UpdateAvailableCode.LATER_VERSION_EXIST, versionName: '', versionCode: 0}
     }
   }
 
-  async startUpgrade(): Promise<boolean> {
+  async startUpgrade(): Promise<updateManager.ShowUpdateResultCode> {
     try {
       const resultCode: updateManager.ShowUpdateResultCode =
         await updateManager.showUpdateDialog(this.ctx.getUIContext()?.getHostContext() as common.UIAbilityContext)
-      return resultCode === updateManager.ShowUpdateResultCode.SHOW_DIALOG_SUCCESS
+      return resultCode
     } catch (e) {
-      return false
+      return updateManager.ShowUpdateResultCode.SHOW_DIALOG_FAILURE
     }
   }
 }
