@@ -1,6 +1,5 @@
 import {NativeModules} from 'react-native';
 
-const {RNUpgrade} = NativeModules;
-
-export default RNUpgrade
+const {upgrade} = NativeModules;
+export default upgrade
 

@@ -16,4 +16,4 @@ export interface Spec extends TurboModule {
   startUpgrade(): Promise<boolean>
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('RNUpgrade');
+export default TurboModuleRegistry.getEnforcing<Spec>('upgrade');

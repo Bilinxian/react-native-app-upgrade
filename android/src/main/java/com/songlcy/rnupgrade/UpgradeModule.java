@@ -38,7 +38,7 @@ public class UpgradeModule extends ReactContextBaseJavaModule {
 
     @Override
     public String getName() {
-        return "RNUpgrade";
+        return "upgrade";
     }
 
     @Override

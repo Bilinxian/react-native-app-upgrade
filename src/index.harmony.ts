@@ -1,2 +1,2 @@
-import RNUpgrade from './NativeUpgrade'
-export default RNUpgrade
+import upgrade from './NativeUpgrade'
+export default upgrade

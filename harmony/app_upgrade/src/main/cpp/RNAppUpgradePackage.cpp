@@ -8,7 +8,7 @@ class RNAppUpgradePackageFactoryDelegate : public TurboModuleFactoryDelegate {
     
     public:
     SharedTurboModule createTurboModule(Context ctx, const std::string &name) const override {
-        if (name == "RNUpgrade") {
+        if (name == "upgrade") {
             return std::make_shared<RNAppUpgradePackageSpecJSI>(ctx, name);
         }
         return nullptr;

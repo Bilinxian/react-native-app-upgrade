@@ -7,7 +7,7 @@
 @implementation upgrade
 
 
-RCT_EXPORT_MODULE(RNUpgrade)
+RCT_EXPORT_MODULE(upgrade)
 
 RCT_EXPORT_METHOD(upgrade:(NSString *)storeappID callback:(RCTResponseSenderBlock)callback){
   

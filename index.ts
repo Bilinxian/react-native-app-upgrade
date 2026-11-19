@@ -1,6 +1,6 @@
 import {Platform} from "react-native";
 import ReactNativeBlobUtil from "react-native-blob-util";
-import RNUpgrade from './src/index'
+import upgrade from './src/index'
 
 const ANDROID_PLATFORM = Platform.OS === 'android';
 
@@ -75,7 +75,7 @@ export async function checkUpdate(appId: string, version: string) {
  */
 export const openAPPStore = (appid: string) => {
   if (!ANDROID_PLATFORM) {
-    RNUpgrade.openAPPStore(appid);
+    upgrade.openAPPStore(appid);
   }
 };
 
@@ -91,10 +91,10 @@ export const downloadApk = async ({
                                     interval = 250,
                                     downloadInstall = true,
                                   }: { apkUrl: string, callback: any, interval: number, downloadInstall: boolean }) => {
-  const apkFilePath = RNUpgrade.downloadApkFilePath;
+  const apkFilePath = upgrade.downloadApkFilePath;
   // const apkHasDownload = await checkApkFileExist(apkFilePath);
   // if (apkHasDownload) {
-  //     RNUpgrade.installApk(downloadApkFilePath);
+  //     upgrade.installApk(downloadApkFilePath);
   //     return;
   // }
   const downloadTask = await ReactNativeBlobUtil
@@ -109,7 +109,7 @@ export const downloadApk = async ({
   callback?.onComplete();
   if (downloadInstall) {
     const apkFileExist = await checkApkFileExist(apkFilePath);
-    apkFileExist && RNUpgrade.installApk(apkFilePath);
+    apkFileExist && upgrade.installApk(apkFilePath);
   }
 }
 
@@ -122,9 +122,9 @@ const checkApkFileExist = async (apkFilePath: string) => {
 }
 
 export const checkHarmonyUpgrade = async () => {
-  return RNUpgrade.checkUpgrade()
+  return upgrade.checkUpgrade()
 }
 
 export const startHarmonyUpgrade = async () =>{
-  return RNUpgrade.startUpgrade()
+  return upgrade.startUpgrade()
 }

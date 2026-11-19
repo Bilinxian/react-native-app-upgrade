@@ -4,14 +4,14 @@ import { RNAppUpgradeTurboModule } from "./RNAppUpgradeTurboModule";
 
 class RNAppUpgradePackageFactory extends TurboModulesFactory {
   createTurboModule(name: string): TurboModule | null {
-    if (name === "RNUpgrade") {
+    if (name === "upgrade") {
       return new RNAppUpgradeTurboModule(this.ctx);
     }
     return null;
   }
 
   hasTurboModule(name: string): boolean {
-    return name === "RNUpgrade";
+    return name === "upgrade";
   }
 }
 
