@@ -121,10 +121,10 @@ const checkApkFileExist = async (apkFilePath: string) => {
   return await ReactNativeBlobUtil.fs.exists(apkFilePath);
 }
 
-export const checkUpgrade = async () => {
+export const checkHarmonyUpgrade = async () => {
   return RNUpgrade.checkUpgrade()
 }
 
-export const startUpgrade = async () =>{
+export const startHarmonyUpgrade = async () =>{
   return RNUpgrade.startUpgrade()
 }
