@@ -2,7 +2,7 @@
   "name": "rn-app-upgrade",
   "version": "2.1.9",
   "description": "react native app upgrade",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

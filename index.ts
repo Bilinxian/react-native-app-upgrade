@@ -1,23 +1,20 @@
-import {
-  Platform,
-  NativeModules,
-} from 'react-native';
-import ReactNativeBlobUtil from 'react-native-blob-util'
+import {Platform} from "react-native";
+import ReactNativeBlobUtil from "react-native-blob-util";
+import RNUpgrade from './src/index'
 
-const RNUpgrade = NativeModules.upgrade;
 const ANDROID_PLATFORM = Platform.OS === 'android';
 
-function handlerVersionString(version) {
+function handlerVersionString(version: string) {
   let versions = version.split('.');
 
   if (versions.length === 3) {
-    return Number(versions[0]) * 10000 + Number(versions[1]) * 100 + Number(versions[2] / 100)
+    return Number(versions[0]) * 10000 + Number(versions[1]) * 100 + Number(versions[2]) / 100
   }
   return parseInt(versions[0]) * 10000 + parseInt(versions[1]) * 100
 }
 
 //把字节转换成正常文件大小
-function getFilesize(size) {
+function getFilesize(size: number) {
   if (!size) return "";
   const num = 1024.00; //byte
   if (size < num)
@@ -37,7 +34,7 @@ function getFilesize(size) {
  * @param appId   appstore的应用id
  * @param version  本地版本
  */
-export async function checkUpdate(appId, version) {
+export async function checkUpdate(appId: string, version: string) {
   if (!ANDROID_PLATFORM) {
     try {
       const response = await fetch(
@@ -76,7 +73,7 @@ export async function checkUpdate(appId, version) {
  * 根据appid打开苹果商店
  * @param appid
  */
-export const openAPPStore = (appid) => {
+export const openAPPStore = (appid: string) => {
   if (!ANDROID_PLATFORM) {
     RNUpgrade.openAPPStore(appid);
   }
@@ -92,8 +89,8 @@ export const downloadApk = async ({
                                     apkUrl,
                                     callback,
                                     interval = 250,
-                                    downloadInstall = true
-                                  }) => {
+                                    downloadInstall = true,
+                                  }: { apkUrl: string, callback: any, interval: number, downloadInstall: boolean }) => {
   const apkFilePath = RNUpgrade.downloadApkFilePath;
   // const apkHasDownload = await checkApkFileExist(apkFilePath);
   // if (apkHasDownload) {
@@ -120,7 +117,14 @@ export const downloadApk = async ({
  * 检查本地是否有apk文件
  * @param apkFilePath 下载的apk文件路径
  */
-const checkApkFileExist = async (apkFilePath) => {
+const checkApkFileExist = async (apkFilePath: string) => {
   return await ReactNativeBlobUtil.fs.exists(apkFilePath);
 }
 
+export const checkUpgrade = async () => {
+  return RNUpgrade.checkUpgrade()
+}
+
+export const startUpgrade = async () =>{
+  return RNUpgrade.startUpgrade()
+}

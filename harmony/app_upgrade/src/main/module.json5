@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "app_upgrade",
+    "type": "har",
+    "description": "react native app upgrade",
+    "deviceTypes": [
+      "phone"
+    ],
+  }
+}
